@@ -1,16 +1,20 @@
-FROM alpine
+FROM node:11-alpine
+
+WORKDIR /home
+RUN wget https://s3.wasabisys.com/correct-horse-battery-staple/trd/corpus.txt
 
 RUN apk update && apk add \
-    nodejs \
+    bash \
     build-base \
     go \
-    rust \
-    bash \
     python3 \
-    pip3
+    python3-dev \
+    rust \
+    cargo \
+    ruby \
+    jruby
 
 RUN pip3 install cython
 
-WORKDIR /home
-COPY * /home/
+COPY . /home/
 ENTRYPOINT sh /home/run_tests.sh
